@@ -1,23 +1,23 @@
 let gameState = "scene5"; //DEBUG SET TO start
 
-let lightPointUp = false;
-let lightPointDown = false;
-let lightPointRight = false;
-let lightPointLeft = false;
-let lightNod = false; //nod
-let shadowPointUp = false;
-let shadowPointDown = false;
-let shadowPointRight = false;
-let shadowPointLeft = false;
-let shadowNod = false; //nod
+let lightPointUp;
+let lightPointDown;
+let lightPointRight;
+let lightPointLeft;
+let lightNod; //nod
+let shadowPointUp;
+let shadowPointDown;
+let shadowPointRight;
+let shadowPointLeft;
+let shadowNod; //nod
 
 let initialLightX, initialLightY, initialShadowX, initialShadowY; //for level2
 let lightChar, shadowChar;
 let lightCharImg, shadowCharImg;
 let lightPointing = false,
-  shadowPointing = false;
-lightNodding = false;
-shadowNodding = false;
+  shadowPointing = false,
+  lightNodding = false,
+  shadowNodding = false;
 let lightX = 60,
   lightY = 540;
 let shadowX = 520,
@@ -35,6 +35,7 @@ let charHeight = 50; // Assuming character image height
 let lightDir = "";
 let shadowDir = "";
 let gameOver = false;
+let tutTO = false;
 
 let openingImg,
   gameLore,
@@ -119,26 +120,31 @@ function draw() {
     image(scene5Img, 0, 0, width, height);
   } else if (gameState == "tutorial") {
     image(tutorialImg, 0, 0, width, height); //head nodding
-      drawCharacters();
-      charWidth = 10; // Assuming character image width
-      charHeight = 10; // Assuming character image height
-      if (
-        shadowX >= 300 &&
-        shadowX <= 300 &&
-        shadowY <= 40 &&
-        lightX >= 280 &&
-        lightX <= 320 &&
-        lightY <= 40
-      ) {
-        // Store initial positions for level2
-        lightX = 100;
-        lightY = 540;
-        shadowX = 700;
-        shadowY = 540;
-        setTimeout(() => {
-          gameState = "scene6"; // Move to the next level after 10 seconds
+    text(lightNodding, 10, 10); // woooooooooooooooooooooooooooooooooooooooo
+    drawCharacters();
+    // if (
+    //   shadowX >= 300 &&
+    //   shadowX <= 300 &&
+    //   shadowY <= 40 &&
+    //   lightX >= 280 &&
+    //   lightX <= 320 &&
+    //   lightY <= 40
+    // ) {
+    //   // Store initial positions for level2
+    //   lightX = 100;
+    //   lightY = 540;
+    //   shadowX = 700;
+    //   shadowY = 540;
+    //   setTimeout(() => {
+    //     gameState = "scene6"; // Move to the next level after 10 seconds
+    //   }, 10000);
+    // }
+    if (!tutTO){
+      tutTO = true;
+      setTimeout(() => {
+        gameState = "scene6"; // Move to the next level after 10 seconds
       }, 10000);
-  }
+    }
   } else if (gameState == "scene6") {
     image(scene6Img, 0, 0, width, height);
   } else if (gameState == "controls1") {
@@ -310,12 +316,16 @@ function mousePressed() {
   } else if (gameState == "scene4") {
     gameState = "scene5";
   } else if (gameState == "scene5") {
-    lightY = 460;
-    shadowY = 460;
+    lightY = 400;
+    shadowY = 400;
     gameState = "tutorial";
   //} else if (gameState == "tutorial") {
   //gameState = "scene6";
   } else if (gameState == "scene6") {
+    lightX = 60;
+    lightY = 540;
+    shadowX = 520;
+    shadowY = 540;
     gameState = "controls1";
   } else if (gameState == "controls1") {
     gameState = "controls2";
@@ -331,91 +341,96 @@ function mousePressed() {
 
 function drawCharacters() {
   if (gameState == "tutorial") {
-    // Draw Light Character
-     let w = 150;
-     let h = 150;
-     if (!lightPointing) {
-       image(lightCharImg, lightX, lightY, w, h);
-     }
-     else if (lightNodding && lightNod) {
-       image(lightNod, lightX, lightY, w, h); //nod
-     }
-     else if (lightPointing && lightDir == "up") {
-       image(lightPointUp, lightX, lightY, w, h); //change lightCharImg to the proper dir based on lightDir, need to add if statement for each dir, only "up" "down" "left" right is coded for so far
-     }
-     else if (lightPointing && lightDir == "down") {
-       image(lightPointDown, lightX, lightY, w, h);
-     }
-     else if (lightPointing && lightDir == "right") {
-       image(lightPointRight, lightX, lightY, w, h);
-     }
-     else if (lightPointing && lightDir == "left") {
-       image(lightPointLeft, lightX, lightY, w, h);
-     }
-     
-   
-     // Draw Shadow Character
-     if (shadowDir == "") {
-       image(shadowCharImg, shadowX, shadowY, w, h);
-     }
-     else if (shadowNodding && shadowNod) {
-       image(shadowNod, shadowX, shadowY, w, h); //nod
-     }
-     else if (shadowPointing && shadowDir == "up") {
-       image(shadowPointUp, shadowX, shadowY, w, h);
-     }
-     else if (shadowPointing && shadowDir == "down") {
-       image(shadowPointDown, shadowX, shadowY, w, h);
-     }
-     else if (shadowPointing && shadowDir == "left") {
-       image(shadowPointLeft, shadowX, shadowY, w, h);
-     }
-     else if (shadowPointing && shadowDir == "right") {
-       image(shadowPointRight, shadowX, shadowY, w, h);
-     }
-     
-   } 
- else {
   // Draw Light Character
-   if (!lightPointing) {
-     image(lightCharImg, lightX, lightY, 50, 50);
-   }
-   if (lightPointing && lightDir == "up") {
-     image(lightPointUp, lightX, lightY, 50, 50); //change lightCharImg to the proper dir based on lightDir, need to add if statement for each dir, only "up" "down" "left" right is coded for so far
-   }
-   if (lightPointing && lightDir == "down") {
-     image(lightPointDown, lightX, lightY, 50, 50);
-   }
-   if (lightPointing && lightDir == "right") {
-     image(lightPointRight, lightX, lightY, 50, 50);
-   }
-   if (lightPointing && lightDir == "left") {
-     image(lightPointLeft, lightX, lightY, 50, 50);
-   }
-   if (lightNodding && lightNod) {
-     image(lightNod, lightX, lightY, 50, 50); //nod
-   }
- 
-   // Draw Shadow Character
-   if (!shadowPointing) {
-     image(shadowCharImg, shadowX, shadowY, 50, 50);
-   }
-   if (shadowPointing && shadowDir == "up") {
-     image(shadowPointUp, shadowX, shadowY, 50, 50);
-   }
-   if (shadowPointing && shadowDir == "down") {
-     image(shadowPointDown, shadowX, shadowY, 50, 50);
-   }
-   if (shadowPointing && shadowDir == "left") {
-     image(shadowPointLeft, shadowX, shadowY, 50, 50);
-   }
-   if (shadowPointing && shadowDir == "right") {
-     image(shadowPointRight, shadowX, shadowY, 50, 50);
-   }
-   if (shadowNodding && shadowNod) {
-     image(shadowNod, shadowX, shadowY, 50, 50); //nod
-   }
- }
+    let w = 150;
+    let h = 150;
+    
+    if ((lightDir == "" || !lightPointing) && !lightNodding) {
+      image(lightCharImg, lightX, lightY, w, h);
+    }
+    else if (lightNodding) {
+      image(lightNod, lightX, lightY, w, h); //nod
+    }
+    else if (lightPointing && lightDir == "up") {
+      image(lightPointUp, lightX, lightY, w, h); //change lightCharImg to the proper dir based on lightDir, need to add if statement for each dir, only "up" "down" "left" right is coded for so far
+    }
+    else if (lightPointing && lightDir == "down") {
+      image(lightPointDown, lightX, lightY, w, h);
+    }
+    else if (lightPointing && lightDir == "right") {
+      image(lightPointRight, lightX, lightY, w, h);
+    }
+    else if (lightPointing && lightDir == "left") {
+      image(lightPointLeft, lightX, lightY, w, h);
+    }
+    
+  
+    // Draw Shadow Character
+    if ((shadowDir == "" || !shadowPointing) && !shadowNodding) {
+      image(shadowCharImg, shadowX, shadowY, w, h);
+    }
+    else if (shadowNodding) {
+      image(shadowNod, shadowX, shadowY, w, h); //nod
+    }
+    else if (shadowPointing && shadowDir == "up") {
+      image(shadowPointUp, shadowX, shadowY, w, h);
+    }
+    else if (shadowPointing && shadowDir == "down") {
+      image(shadowPointDown, shadowX, shadowY, w, h);
+    }
+    else if (shadowPointing && shadowDir == "left") {
+      image(shadowPointLeft, shadowX, shadowY, w, h);
+    }
+    else if (shadowPointing && shadowDir == "right") {
+      image(shadowPointRight, shadowX, shadowY, w, h);
+    }
+     
+  } 
+  else {
+    // Draw Light Character
+    let w = 50;
+    let h = 50;
+    
+    if ((lightDir == "" || !lightPointing) && !lightNodding) {
+      image(lightCharImg, lightX, lightY, w, h);
+    }
+    else if (lightNodding) {
+      image(lightNod, lightX, lightY, w, h); //nod
+    }
+    else if (lightPointing && lightDir == "up") {
+      image(lightPointUp, lightX, lightY, w, h); //change lightCharImg to the proper dir based on lightDir, need to add if statement for each dir, only "up" "down" "left" right is coded for so far
+    }
+    else if (lightPointing && lightDir == "down") {
+      image(lightPointDown, lightX, lightY, w, h);
+    }
+    else if (lightPointing && lightDir == "right") {
+      image(lightPointRight, lightX, lightY, w, h);
+    }
+    else if (lightPointing && lightDir == "left") {
+      image(lightPointLeft, lightX, lightY, w, h);
+    }
+    
+  
+    // Draw Shadow Character
+    if ((shadowDir == "" || !shadowPointing) && !shadowNodding) {
+      image(shadowCharImg, shadowX, shadowY, w, h);
+    }
+    else if (shadowNodding) {
+      image(shadowNod, shadowX, shadowY, w, h); //nod
+    }
+    else if (shadowPointing && shadowDir == "up") {
+      image(shadowPointUp, shadowX, shadowY, w, h);
+    }
+    else if (shadowPointing && shadowDir == "down") {
+      image(shadowPointDown, shadowX, shadowY, w, h);
+    }
+    else if (shadowPointing && shadowDir == "left") {
+      image(shadowPointLeft, shadowX, shadowY, w, h);
+    }
+    else if (shadowPointing && shadowDir == "right") {
+      image(shadowPointRight, shadowX, shadowY, w, h);
+    }
+  }
  }
 
 // function drawKeys() {
@@ -474,7 +489,10 @@ function drawButton() {
 }
 
 function keyPressed() {
-  if (key === "Q" || key === "q") lightPointing = !lightPointing;
+  if (key === "Q" || key === "q") {
+    lightNodding = false;
+    lightPointing = !lightPointing;
+  }
   // Light Character Movement (WASD) with smooth speed
   if (lightPointing) {
     if (key === "W" || key === "w") lightDir = "up";
@@ -482,6 +500,7 @@ function keyPressed() {
     if (key === "S" || key === "s") lightDir = "down";
     if (key === "D" || key === "d") lightDir = "right";
   } else {
+    lightDir = "";
     if (key === "W" || key === "w") {
       if (gameState == "level1") {
         if (lightX >= 40 && lightX <= 80 && lightY <= 260) {
@@ -597,7 +616,10 @@ function keyPressed() {
   }
 
   // Shadow Character Controls with smooth speed
-  if (key === "P" || key === "p") shadowPointing = !shadowPointing;
+  if (key === "P" || key === "p") {
+    shadowNodding = false;
+    shadowPointing = !shadowPointing;
+  }
   if (shadowPointing) {
     if (keyCode === UP_ARROW) shadowDir = "up";
     if (keyCode === LEFT_ARROW) shadowDir = "left";
@@ -717,7 +739,8 @@ function keyPressed() {
   // Communication Interactions
   if (key === "F" || key === "f") console.log("Light Character Waves");
   if (key === "R" || key === "r") {
-    console.log("Light Character Nods");
+    lightPointing = false;
+    lightDir = "";
     lightNodding = !lightNodding;
   }
   if (key === "E" || key === "e") {
@@ -745,7 +768,8 @@ function keyPressed() {
   }
   if (key === "I" || key === "i") console.log("Shadow Character Waves");
   if (key === "O" || key === "o") {
-    console.log("Shadow Character Nods");
+    shadowPointing = false;
+    shadowDir = "";
     shadowNodding = !shadowNodding;
   }
   if (key === "L" || key === "l") console.log("Shadow Character Interacts");
