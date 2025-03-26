@@ -1,4 +1,4 @@
-let gameState = "scene5"; //DEBUG SET TO start
+let gameState = "start"; //DEBUG SET TO start
 
 let lightPointUp;
 let lightPointDown;
@@ -120,25 +120,7 @@ function draw() {
     image(scene5Img, 0, 0, width, height);
   } else if (gameState == "tutorial") {
     image(tutorialImg, 0, 0, width, height); //head nodding
-    text(lightNodding, 10, 10); // woooooooooooooooooooooooooooooooooooooooo
     drawCharacters();
-    // if (
-    //   shadowX >= 300 &&
-    //   shadowX <= 300 &&
-    //   shadowY <= 40 &&
-    //   lightX >= 280 &&
-    //   lightX <= 320 &&
-    //   lightY <= 40
-    // ) {
-    //   // Store initial positions for level2
-    //   lightX = 100;
-    //   lightY = 540;
-    //   shadowX = 700;
-    //   shadowY = 540;
-    //   setTimeout(() => {
-    //     gameState = "scene6"; // Move to the next level after 10 seconds
-    //   }, 10000);
-    // }
     if (!tutTO){
       tutTO = true;
       setTimeout(() => {
